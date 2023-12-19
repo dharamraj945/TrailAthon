@@ -23,8 +23,6 @@ else
 
 
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,6 +38,9 @@ else
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="css/admin.css" rel="stylesheet">
     <script src="./js/jquery.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -107,6 +108,35 @@ else
             </li>
 
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap_sections" aria-expanded="true" aria-controls="collapseBootstrap">
+                    <i class="far fa  fa-th-list"></i>
+                    <span>Sections</span>
+                </a>
+                <div id="collapseBootstrap_sections" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Manage Sections</h6>
+                        <a class="collapse-item" href="./add_section">Sections</a>
+
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap_HomePage" aria-expanded="true" aria-controls="collapseBootstrap">
+                    <i class="far fa  fa-th-list"></i>
+                    <span>HomePage</span>
+                </a>
+                <div id="collapseBootstrap_HomePage" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Manage Page</h6>
+                        <a class="collapse-item" href="./front_home">Customize</a>
+
+                    </div>
+                </div>
+            </li>
+
+
 
 
         </ul>
@@ -160,12 +190,13 @@ else
                         <h1 class="h3 mb-0 text-gray-800">
                             <?php echo strtoupper($currunt_page) ?>
                         </h1>
+                        <span>
 
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="./">Dashboard</a> </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                <?php echo ucfirst($currunt_page) ?>
-                            </li>
-                        </ol>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="./">Dashboard</a> </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    <?php echo ucfirst($currunt_page) ?>
+                                </li>
+                            </ol>
 
                     </div>

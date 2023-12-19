@@ -111,4 +111,16 @@ class Db_functions
             return 0;
         }
     }
+
+
+    function data_delete($qry)
+    {
+
+        $result = $this->exe_query($qry);
+        if ($result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

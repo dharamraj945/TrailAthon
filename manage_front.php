@@ -1,9 +1,21 @@
-<?php include "./header.php";
+<?php
+include "./header.php";
+$obj_frontPage = new Db_functions();
 
-$obj_fetch_section = new Db_functions();
+$qry = "SELECT * FROM `section_home` sh INNER JOIN grt_client_sections cs on sh.id = cs.section_id AND  cs.section_status=0 and cs.client_id= $_SESSION[active_user]";
+
+echo $qry;
 ?>
 
+<?php
 
+$show_added_section = "SELECT * FROM `front_sections` ";
+$result_qry = $obj_frontPage->data_fetch($show_added_section);
+
+if ($result_qry != 0) {;
+}
+
+?>
 <div class="row">
     <div class="col-lg-12">
         <!-- Form Basic -->
@@ -12,10 +24,10 @@ $obj_fetch_section = new Db_functions();
 
             </div>
             <div class="card-body">
-                <form action="./page_backend.php" method="post" enctype="multipart/form-data">
+                <form action="./section_backend.php" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Page Title</label>
-                        <input name="Page_title" required="" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="" placeholder="Title">
+                        <h2>Manage Homepage</h2>
+
 
                     </div>
 
@@ -26,11 +38,13 @@ $obj_fetch_section = new Db_functions();
                             <option disabled="" value="-1">Select Category</option>
 
                             <?php
-                            $qry = "SELECT * FROM `section_content` WHERE content_status=0";
-                            $qry_fire =  $obj_fetch_section->data_fetch($qry);
+
+                            $qry_fire =  $obj_frontPage->data_fetch($qry);
+
+
                             foreach ($qry_fire as $key => $option_data) { ?>
 
-                                <option value="<?= $option_data['sno'] ?>"><?= $option_data['content_title'] ?></option>
+                                <option <?php  ?> value="<?= $option_data['id'] ?>"><?= $option_data['section_title'] ?></option>
 
 
                             <?php }
@@ -43,7 +57,7 @@ $obj_fetch_section = new Db_functions();
                     </div>
                     <div class="button">
 
-                        <button name="add_page" class="btn btn-primary" type="submit">Submit</button>
+                        <button name="create_section" class="btn btn-primary" type="submit">Add HomePage</button>
                     </div>
 
                 </form>
@@ -52,9 +66,12 @@ $obj_fetch_section = new Db_functions();
     </div>
 
 </div>
+
 <script>
     $('.js-example-basic-single').select2({
-        placeholder: 'Select an option'
+        placeholder: 'Select an Section'
     });
 </script>
-<?php include "./footer.php" ?>
+<?php
+include "./footer.php";
+?>

@@ -89,8 +89,32 @@ $menu_data = new Db_functions();
                                     <td><?= $value['menu_handler'] ?></td>
 
 
-                                    <td><a href="./menu_update?menu_id=<?= $value['id'] ?>" class="btn btn-sm btn-primary">Edit</a>
-                                        <a href="./profile?profile_id=1" class="btn btn-sm btn-danger">Delete</a>
+                                    <td><a href="./menu_update?menu_id=<?= $value['id'] ?>" class="btn btn-sm   btn-primary">Edit</a>
+                                        <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#menu_del<?= $value['id'] ?>">Delete</button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="menu_del<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Are You Sure !</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <span class="text-danger"> You won't be able to revert this !</span>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <a href="./menus_backend.php?del_menu=<?php echo $value['id'] ?>" class="btn btn-danger">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal -->
+
+
                                     </td>
                                 </tr>
 

@@ -37,24 +37,24 @@ print_r($result);
 
                         <select name="new_menu_type" class="form-control mb-3" required="">
                             <option disabled value="">SELECT </option>
-                            <option <?= $result['menu_type'] == 0 ? "selected" : "" ?> value="">Header Menu</option>
-                            <option <?= $result['menu_type'] == 1 ? "selected" : "" ?> value="">Footer Menu </option>
+                            <option <?= $result['menu_type'] == 0 ? "selected" : "" ?> value="0">Header Menu</option>
+                            <option <?= $result['menu_type'] == 1 ? "selected" : "" ?> value="1">Footer Menu </option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Menu Type</label>
+                        <label for="exampleInputEmail1">Menu Status</label>
 
                         <select name="new_menu_status" class="form-control mb-3" required="">
                             <option disabled value="">SELECT </option>
 
-                            <option <?= $result['menu_type'] == 0 ? "selected" : "" ?> value="">Active</option>
-                            <option <?= $result['menu_type'] == 1 ? "selected" : "" ?> value="">Draft </option>
+                            <option <?= $result['menu_type'] == 0 ? "selected" : "" ?> value="0">Active</option>
+                            <option <?= $result['menu_type'] == 1 ? "selected" : "" ?> value="1">Draft </option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">Menu handler</label>
-                        <input value="<?= $result['menu_handler'] ?>" name="new_menu_action" required="" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Menu Handler" required>
+                        <input value="<?= $result['menu_handler'] ?>" name="new_menu_handler" required="" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Menu Handler" required>
 
                     </div>
 
@@ -74,22 +74,22 @@ print_r($result);
                     <label for="exampleInputEmail1">Menu Action</label>
 
                     <select id="new_menu_action" name="menu_action_type" class="form-control mb-3" required>
-                        <option value="" selected disabled>SELECT</option>
-                        <option value="0">Assign Page</option>
-                        <option value="1">Custom Url</option>
+                        <option value="" disabled>SELECT</option>
+                        <option <?php echo ($result['menu_action_type'] == 0 ? "selected" : ""); ?> value="0">Assign Page</option>
+                        <option <?php echo ($result['menu_action_type'] == 1 ? "selected" : ""); ?> value="1">Custom Url</option>
                     </select>
                 </div>
 
 
                 <div id="result_ajax" class="form-group">
 
-
+                    <!-- ajax data apppends here  -->
                 </div>
 
 
                 <div class="form-group">
                     <label for="exampleInputEmail1">Sequence </label>
-                    <input name="new_menu_sequence" required="" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+                    <input value="<?= $result['menu_seq'] ?>" name="new_menu_sequence" required="" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
                 </div>
 
             </div>
@@ -104,40 +104,62 @@ print_r($result);
 <script>
     $(document).ready(function() {
 
+        // Make an AJAX call to the server
+
+        var selected_val = $('#new_menu_action').find(":selected").val();
+        ajax_call_type(selected_val);
+
+
+
         $('#new_menu_action').change(function() {
 
             var selectedval = $(this).val();
-            ajax_call_type(selectedval)
+
+            ajax_call_type(selectedval);
             // Make an AJAX call to the server
 
-            function ajax_call_type(action_type) {
 
-                $.ajax({
-                    url: './menus_backend.php', // URL to the PHP file
-                    type: 'POST', // HTTP method
-                    dataType: 'html', // Data type expected from the server
-                    data: {
-                        data_menu_type: selectedval
-                    }, // Data to send to the server
-
-                    success: function(response) {
-                        // Handle the successful response from the server
-                        $('#result_ajax').html(response);
-
-                    },
-
-                    error: function(error) {
-                        // Handle errors
-                        console.log('Error:', error);
-                    }
-                });
-
-            }
 
 
         })
 
     })
+
+    function ajax_call_type(action_type) {
+
+        $.ajax({
+            url: './menus_backend.php', // URL to the PHP file
+            type: 'POST', // HTTP method
+            dataType: 'html', // Data type expected from the server
+            data: {
+                data_menu_type: action_type
+            }, // Data to send to the server
+
+            success: function(response) {
+                // Handle the successful response from the server
+                $('#result_ajax').html(response);
+
+
+                <?php
+                if ($result['menu_action_type'] == 0) { ?>
+
+                    $("#menu_action option[value='<?php echo $result['menu_action'] ?>']").attr("selected", "selected");
+                <?php } else { ?>
+                    $("#menu_type_value").val("<?php echo $result['menu_action'] ?>");
+
+                <?php }
+                ?>
+
+
+            },
+
+            error: function(error) {
+                // Handle errors
+                console.log('Error:', error);
+            }
+        });
+
+    }
 </script>
 <?php
 include "./footer.php";

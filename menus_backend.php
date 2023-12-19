@@ -2,7 +2,7 @@
 require "./config/session_manage.php";
 require "./config/class.php";
 $menu_obj = new Db_functions();
-
+//add New Menu Start
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_menu'])) {
 
@@ -46,7 +46,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
+    //add New Menu End
 
+
+    //ajax call for get  pages  start
 
     if (isset($_POST['data_menu_type'])) {
 
@@ -60,19 +63,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $qry = "SELECT * FROM `pages` WHERE page_status=0";
             $qry_result = $menu_obj->data_fetch($qry);
             if ($qry_result != 0) {
-
-
+                echo '<label>Select Page</label>';
+                echo '<select id="menu_action" name="menu_action" class="form-control mb-3" required=""> ';
                 foreach ($qry_result as $key => $value) { ?>
-                    <label>Select Page</label>
 
-                    <select id="menu_action" name="menu_action" class="form-control mb-3" required="">
-                        <option value="<?= $value['id'] ?>"><?= $value['page_title'] ?></option>
 
-                    </select>
+                    <option value="<?= $value['id'] ?>"><?= $value['page_title'] ?></option>
 
 
 
                 <?php  }
+
+                echo '</select>';
             } else { ?>
 
                 <label for="">No Page Found</label>
@@ -82,8 +84,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif ($menu_type == 1) { ?>
 
             <label for="">Custom Url</label>
-            <input value="" type="url" class="form-control" id="" placeholder="Url" name="menu_action" required>
+            <input value="" type="url" class="form-control" id="menu_type_value" placeholder="Url" name="menu_action" required>
 
 <?php }
+    }
+    //ajax call for get  pages  End
+
+
+
+    if (isset($_POST['update_menu'])) {
+
+        print_r($_POST);
+    }
+}
+
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+    if (isset($_GET['del_menu'])) {
+        $del_id = $_GET['del_menu'];
+
+        $qry_delete_menu = "DELETE FROM `section_menu` WHERE id=$del_id";
+        $result = $menu_obj->data_delete($qry_delete_menu);
+
+        if ($result != 0) {
+            echo "<script>
+            window.location.href='./menus.php';
+            </script>";
+        } else {
+
+            echo "<script>
+            alert('fail');
+            window.location.href='./menus.php';
+            </script>";
+        }
     }
 }
